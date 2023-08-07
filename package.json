@@ -45,7 +45,6 @@
     "detect-repo-linters": "^3.1.1",
     "detect-repo-test-files": "^1.2.2",
     "fetch-coverage": "^2.0.3",
-    "is-regular-file": "^1.1.1",
-    "semver": "^7.5.4"
+    "is-regular-file": "^1.1.1"
   }
 }

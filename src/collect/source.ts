@@ -4,8 +4,6 @@ import detectReadmeBadges from 'detect-readme-badges';
 import detectRepoChangelog from 'detect-repo-changelog';
 import fetchCoverage from 'fetch-coverage';
 import isRegularFile from 'is-regular-file';
-import npmCheck from 'npm-check';
-import semver from 'semver';
 
 import { PkgConfig } from '../types/pkg-config';
 import fileSize from '../utils/filesize';
