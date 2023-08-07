@@ -2,20 +2,23 @@ import path from 'path';
 
 import { Collected } from '../types/collected';
 import { Context } from '../types/context';
+import github, { fetchGithubStats } from './github';
 import metadata from './metadata';
 import npm from './npm';
 import source from './source';
 
 export default async function collect(context: Context): Promise<Collected> {
-  const [sourceRes, metadataRes, npmRes] = await Promise.all([
+  const [sourceRes, metadataRes, npmRes, githubRes] = await Promise.all([
     source(context),
     metadata(context),
-    npm(context)
+    npm(context),
+    github(context)
   ]);
 
   return {
     source: sourceRes,
     metadata: metadataRes,
-    npm: npmRes
+    npm: npmRes,
+    github: githubRes
   };
 }

@@ -4,7 +4,9 @@ import { Context } from '../types/context';
 import getNpmView from '../utils/get-npm-view';
 import readPackageJSON from '../utils/read-package-json';
 
-export default async function createContext(packagePath: string): Promise<Context> {
+export default async function createContext(
+  packagePath: string
+): Promise<Context> {
   const pkg = await readPackageJSON(packagePath);
 
   return {
