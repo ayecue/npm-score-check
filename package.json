@@ -10,6 +10,9 @@
     "dev": "ts-node ./src/index.ts",
     "build": "tsc -p ./"
   },
+  "bin": {
+    "npm-score-check": "bin/check.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ayecue/npm-score-check.git"
@@ -40,6 +43,7 @@
   },
   "homepage": "https://github.com/ayecue/npm-score-check#readme",
   "dependencies": {
+    "commander": "^11.0.0",
     "detect-readme-badges": "^1.4.0",
     "detect-repo-changelog": "^1.0.1",
     "detect-repo-linters": "^3.1.1",
