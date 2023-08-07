@@ -5,7 +5,7 @@ import detectRepoChangelog from 'detect-repo-changelog';
 import fetchCoverage from 'fetch-coverage';
 import isRegularFile from 'is-regular-file';
 
-import { PkgConfig } from '../types/pkg-config';
+import { Context } from '../types/context';
 import fileSize from '../utils/filesize';
 import fileContents from '../utils/file-contents';
 import { OutdatedReport } from '../types/outdated-report';
@@ -14,7 +14,7 @@ import { AuditReport } from '../types/audit-report';
 import getAuditReport from '../utils/get-audit-report';
 import getOutdatedReport from '../utils/get-outdated-report';
 
-export async function inspectFiles(pkgConfig: PkgConfig): Promise<InspectFilesResult> {
+export async function inspectFiles(context: Context): Promise<InspectFilesResult> {
   const [
     readmeSize,
     testsSize,
@@ -22,11 +22,11 @@ export async function inspectFiles(pkgConfig: PkgConfig): Promise<InspectFilesRe
     hasShrinkwrap = null,
     hasChangelog
   ] = await Promise.all([
-    fileSize(`${pkgConfig.packageDir}/README.md`),
-    detectRepoTestFiles(pkgConfig.packageDir).then((files) => fileSize(...files)),
-    isRegularFile(`${pkgConfig.packageDir}/.npmignore`),
-    isRegularFile(`${pkgConfig.packageDir}/npm-shrinkwrap.json`),
-    detectRepoChangelog(pkgConfig.packageDir).then((file) => file ? true : null)
+    fileSize(`${context.package.dir}/${context.npm.readmeFilename ?? 'README.md'}`),
+    detectRepoTestFiles(context.package.dir).then((files) => fileSize(...files)),
+    isRegularFile(`${context.package.dir}/.npmignore`),
+    isRegularFile(`${context.package.dir}/npm-shrinkwrap.json`),
+    detectRepoChangelog(context.package.dir).then((file) => file ? true : null)
   ]);
 
   return {
@@ -38,19 +38,19 @@ export async function inspectFiles(pkgConfig: PkgConfig): Promise<InspectFilesRe
   };
 }
 
-export async function getReadmeBadges(pkgConfig: PkgConfig): Promise<string[]> {
-  const readmeContent = await fileContents(`${pkgConfig.packageDir}/README.md`);
+export async function getReadmeBadges(context: Context): Promise<string[]> {
+  const readmeContent = await fileContents(`${context.package.dir}/README.md`);
   const badges = await detectReadmeBadges(readmeContent);
   return Array.from(new Set(...badges));
 }
 
-export async function getRepoLinters(pkgConfig: PkgConfig): Promise<string[]> {
-  const linters = await detectRepoLinters(pkgConfig.packageDir);
+export async function getRepoLinters(context: Context): Promise<string[]> {
+  const linters = await detectRepoLinters(context.package.dir);
   return Array.from(new Set(...linters));
 }
 
-export async function fetchCodeCoverage({ packageJSON }: PkgConfig, badges: string[]): Promise<number> {
-  const repository = packageJSON.repository;
+export async function fetchCodeCoverage(context: Context, badges: string[]): Promise<number> {
+  const repository = context.package.json.repository;
   const url = typeof repository === 'string' ? repository : repository.url;
 
   if (!url) {
@@ -62,32 +62,32 @@ export async function fetchCodeCoverage({ packageJSON }: PkgConfig, badges: stri
   });
 }
 
-export async function checkVulnerabilities({ packageDir }: PkgConfig): Promise<AuditReport> {
-  return getAuditReport(packageDir);
+export async function checkVulnerabilities(context: Context): Promise<AuditReport> {
+  return getAuditReport(context.package.dir);
 }
 
-export async function checkOutdatedDeps({ packageDir }: PkgConfig): Promise<OutdatedReport> {
-  return getOutdatedReport(packageDir);
+export async function checkOutdatedDeps(context: Context): Promise<OutdatedReport> {
+  return getOutdatedReport(context.package.dir);
 }
 
-export default async function source(pkgConfig: PkgConfig) {
+export default async function source(context: Context) {
   const [
     files,
     badges,
     linters
   ] = await Promise.all([
-    inspectFiles(pkgConfig),
-    getReadmeBadges(pkgConfig),
-    getRepoLinters(pkgConfig)
+    inspectFiles(context),
+    getReadmeBadges(context),
+    getRepoLinters(context)
   ]);
   const [
     coverage,
     outdatedDependencies,
     vulnerabilities
   ] = await Promise.all([
-    fetchCodeCoverage(pkgConfig, badges),
-    checkOutdatedDeps(pkgConfig),
-    checkVulnerabilities(pkgConfig)
+    fetchCodeCoverage(context, badges),
+    checkOutdatedDeps(context),
+    checkVulnerabilities(context)
   ]);
 
   return {
