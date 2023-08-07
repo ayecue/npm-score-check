@@ -1,7 +1,10 @@
-import { spawn } from "child_process";
-import { AuditReport } from "../types/audit-report";
+import { spawn } from 'child_process';
 
-export default function getAuditReport(path: string): Promise<AuditReport> {
+import { AuditReport } from '../types/audit-report';
+
+export default function getAuditReport(
+  path: string
+): Promise<AuditReport['vulnerabilities']> {
   return new Promise((resolve, reject) => {
     let output = '';
 
@@ -9,8 +12,8 @@ export default function getAuditReport(path: string): Promise<AuditReport> {
       cwd: path
     })
       .on('error', reject)
-      .on('close', () => resolve(JSON.parse(output)))
+      .on('close', () => resolve(JSON.parse(output).vulnerabilities));
 
-    p.stdout.on('data', (data) => output += data.toString());
+    p.stdout.on('data', (data) => (output += data.toString()));
   });
 }

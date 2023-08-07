@@ -5,5 +5,5 @@ export interface OutdatedReport {
     latest: string;
     dependent: string;
     location: string;
-  }
+  };
 }

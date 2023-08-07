@@ -1,7 +1,8 @@
 import fs from 'fs/promises';
-import { PackageJSON } from '../types/package-json';
 
-export default async function readPackageJSON(path: string): Promise<PackageJSON> {
+import Package from '../container/package';
+
+export default async function readPackageJSON(path: string): Promise<Package> {
   const content = await fs.readFile(path, 'utf-8');
-  return JSON.parse(content);
+  return new Package(JSON.parse(content));
 }

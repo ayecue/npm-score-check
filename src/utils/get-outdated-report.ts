@@ -1,7 +1,10 @@
-import { spawn } from "child_process";
-import { OutdatedReport } from "../types/outdated-report";
+import { spawn } from 'child_process';
 
-export default function getOutdatedReport(path: string): Promise<OutdatedReport> {
+import { OutdatedReport } from '../types/outdated-report';
+
+export default function getOutdatedReport(
+  path: string
+): Promise<OutdatedReport> {
   return new Promise((resolve, reject) => {
     let output = '';
 
@@ -9,8 +12,8 @@ export default function getOutdatedReport(path: string): Promise<OutdatedReport>
       cwd: path
     })
       .on('error', reject)
-      .on('close', () => resolve(JSON.parse(output)))
+      .on('close', () => resolve(JSON.parse(output)));
 
-    p.stdout.on('data', (data) => output += data.toString());
+    p.stdout.on('data', (data) => (output += data.toString()));
   });
 }

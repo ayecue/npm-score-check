@@ -1,17 +1,19 @@
-export type VulnerabilityViaObject = string | {
-  source: number;
-  name: string;
-  dependency: string;
-  title: string;
-  url: string;
-  severity: string;
-  cwe: string[],
-  cvss: {
-      score: number;
-      vectorString: string;
-  },
-  range: string;
-}
+export type VulnerabilityViaObject =
+  | string
+  | {
+      source: number;
+      name: string;
+      dependency: string;
+      title: string;
+      url: string;
+      severity: string;
+      cwe: string[];
+      cvss: {
+        score: number;
+        vectorString: string;
+      };
+      range: string;
+    };
 
 export interface Vulnerability {
   name: string;
@@ -21,7 +23,7 @@ export interface Vulnerability {
   effects: string[];
   range: string;
   nodes: string[];
-  fixAvailable: Record<string, string>
+  fixAvailable: boolean;
 }
 
 export interface AuditReport {
@@ -35,7 +37,7 @@ export interface AuditReport {
       high: number;
       critical: number;
       total: number;
-    },
+    };
     dependencies: {
       prod: number;
       dev: number;
@@ -43,6 +45,6 @@ export interface AuditReport {
       peer: number;
       peerOptional: number;
       total: number;
-    },
-  },
+    };
+  };
 }
