@@ -8,14 +8,12 @@ import NpmView from '../container/npm-view';
 import Package from '../container/package';
 import { Author } from '../container/package/parse-author';
 import { Context } from '../types/context';
+import { Metadata } from '../types/metadata';
 import { Release } from '../types/releases';
 import hostedGitInfo from '../utils/hosted-git-info';
 import pointsToRanges, {
   bucketsFromBreakpoints
 } from '../utils/points-to-ranges';
-import { Metadata } from '../types/metadata';
-
-const BUCKET_BREAKPOINTS: number[] = [30, 90, 180, 365, 730];
 
 export function extractReleases(context: Context): Release[] {
   const time = context.npm.time || {};
@@ -25,7 +23,7 @@ export function extractReleases(context: Context): Release[] {
   }));
   const ranges = pointsToRanges(
     points,
-    bucketsFromBreakpoints(BUCKET_BREAKPOINTS)
+    bucketsFromBreakpoints([30, 90, 180, 365, 730])
   );
 
   return ranges.map((range) => ({

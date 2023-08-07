@@ -9,11 +9,11 @@ import { AuditReport } from '../types/audit-report';
 import { Context } from '../types/context';
 import { InspectFilesResult } from '../types/inspect-files-result';
 import { OutdatedReport } from '../types/outdated-report';
+import { Source } from '../types/source';
 import fileContents from '../utils/file-contents';
 import fileSize from '../utils/filesize';
 import getAuditReport from '../utils/get-audit-report';
 import getOutdatedReport from '../utils/get-outdated-report';
-import { Source } from '../types/source';
 
 export async function inspectFiles(
   context: Context

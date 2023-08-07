@@ -22,6 +22,7 @@ export default class NpmView extends Package {
 
   readonly _hasShrinkwrap: boolean;
   readonly readme: string | null;
+  readonly users: Record<string, boolean>;
 
   constructor(json: NpmViewJSON) {
     super(json);
@@ -46,5 +47,6 @@ export default class NpmView extends Package {
     this._npmOperationalInternal = json._npmOperationalInternal ?? null;
     this._hasShrinkwrap = json._hasShrinkwrap ?? false;
     this.readme = json.readme ?? null;
+    this.users = json.users ?? {};
   }
 }

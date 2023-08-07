@@ -2,7 +2,8 @@ import moment from 'moment';
 
 export type Point = {
   date: moment.Moment;
-  version: string;
+  version?: string;
+  count?: number;
 };
 
 export type Bucket = {

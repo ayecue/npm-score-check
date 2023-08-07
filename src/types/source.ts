@@ -1,6 +1,6 @@
-import { AuditReport } from "./audit-report";
-import { InspectFilesResult } from "./inspect-files-result";
-import { OutdatedReport } from "./outdated-report";
+import { AuditReport } from './audit-report';
+import { InspectFilesResult } from './inspect-files-result';
+import { OutdatedReport } from './outdated-report';
 
 export interface Source {
   files: InspectFilesResult;

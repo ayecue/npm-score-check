@@ -50,4 +50,5 @@ export interface NpmViewJSON extends PackageJSON {
   _npmOperationalInternal: NpmOperationalInternal;
   _hasShrinkwrap: boolean;
   readme?: string;
+  users?: Record<string, boolean>;
 }
