@@ -5,8 +5,9 @@ import getNpmView from '../utils/get-npm-view';
 import readPackageJSON from '../utils/read-package-json';
 import metadata from './metadata';
 import source from './source';
+import { Collected } from '../types/collected';
 
-export default async function collect(packagePath: string) {
+export default async function collect(packagePath: string): Promise<Collected> {
   const pkg = await readPackageJSON(packagePath);
   const context: Context = {
     package: {

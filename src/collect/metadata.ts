@@ -13,6 +13,7 @@ import hostedGitInfo from '../utils/hosted-git-info';
 import pointsToRanges, {
   bucketsFromBreakpoints
 } from '../utils/points-to-ranges';
+import { Metadata } from '../types/metadata';
 
 const BUCKET_BREAKPOINTS: number[] = [30, 90, 180, 365, 730];
 
@@ -181,7 +182,7 @@ function extractMaintainers(
   return null;
 }
 
-export default async function metadata(context: Context) {
+export default async function metadata(context: Context): Promise<Metadata> {
   const links = await extractLinks(context);
   const maintainers = extractMaintainers(context);
 
@@ -195,7 +196,6 @@ export default async function metadata(context: Context) {
       context.npm.time &&
       (context.npm.time[context.package.json.version] ||
         context.npm.time.modified),
-
     author: extractAuthor(context, maintainers),
     publisher: extractPublisher(context, maintainers),
     maintainers:
@@ -205,21 +205,15 @@ export default async function metadata(context: Context) {
         email: maintainer.email
       })),
     contributors: context.package.json.contributors,
-
     repository: context.package.json.repository,
     links,
     license: extractLicense(context),
-
     dependencies: context.package.json.dependencies,
     devDependencies: context.package.json.devDependencies,
     peerDependencies: context.package.json.peerDependencies,
     bundledDependencies: context.package.json.bundleDependencies,
     optionalDependencies: context.package.json.optionalDependencies,
-
     releases: extractReleases(context),
-
-    // There's some packages such as oh-flex that have an invalid deprecated field
-    // that was manually written in the package.json...
     deprecated:
       typeof context.package.json.deprecated === 'string'
         ? context.package.json.deprecated
@@ -235,8 +229,6 @@ export default async function metadata(context: Context) {
       context.package.json.files.length > 0
         ? true
         : null,
-
-    // Need to use typeof because there's some old packages in which the README is an object, e.g.: `flatsite`
     readme:
       typeof context.npm.readme === 'string' && context.npm.readme
         ? context.npm.readme

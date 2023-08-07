@@ -13,6 +13,7 @@ import fileContents from '../utils/file-contents';
 import fileSize from '../utils/filesize';
 import getAuditReport from '../utils/get-audit-report';
 import getOutdatedReport from '../utils/get-outdated-report';
+import { Source } from '../types/source';
 
 export async function inspectFiles(
   context: Context
@@ -85,7 +86,7 @@ export async function checkOutdatedDeps(
   return getOutdatedReport(context.package.dir);
 }
 
-export default async function source(context: Context) {
+export default async function source(context: Context): Promise<Source> {
   const [files, badges, linters] = await Promise.all([
     inspectFiles(context),
     getReadmeBadges(context),
