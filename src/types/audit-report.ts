@@ -24,7 +24,7 @@ export interface Vulnerability {
   fixAvailable: Record<string, string>
 }
 
-export interface VulnerabilityReport {
+export interface AuditReport {
   auditReportVersion: string;
   vulnerabilities: Record<string, Vulnerability>;
   metadata: {

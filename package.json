@@ -40,14 +40,12 @@
   },
   "homepage": "https://github.com/ayecue/npm-score-check#readme",
   "dependencies": {
-    "@npmcli/arborist": "^6.3.0",
     "detect-readme-badges": "^1.4.0",
     "detect-repo-changelog": "^1.0.1",
     "detect-repo-linters": "^3.1.1",
     "detect-repo-test-files": "^1.2.2",
     "fetch-coverage": "^2.0.3",
     "is-regular-file": "^1.1.1",
-    "npm-check": "^6.0.1",
     "semver": "^7.5.4"
   }
 }
