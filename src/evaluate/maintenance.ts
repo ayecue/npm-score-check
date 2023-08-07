@@ -164,7 +164,12 @@ export function isPackageFinished(collected) {
   return isFinished;
 }
 
-export default function maintenance(collected: Collected) {
+export default function maintenance(collected: Collected): {
+  releasesFrequency: number;
+  commitsFrequency: number;
+  openIssues: number;
+  issuesDistribution: number;
+} {
   const evaluation = {
     releasesFrequency: evaluateReleasesFrequency(collected),
     commitsFrequency: evaluateCommitsFrequency(collected),
