@@ -1,0 +1,11 @@
+node_modules
+test.js
+test.ts
+example.ts
+dist
+coverage
+index.js
+.node-persist
+payloads
+.DS_Store
+.env.local
