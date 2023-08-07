@@ -4,6 +4,7 @@ import moment from 'moment';
 import nodeFetch from 'node-fetch';
 
 import { Context } from '../types/context';
+import { Github } from '../types/github';
 import { GithubActivity } from '../types/github-activity';
 import { GithubContributor } from '../types/github-contributor';
 import { GithubInfo } from '../types/github-info';
@@ -14,7 +15,6 @@ import hostedGitInfo from '../utils/hosted-git-info';
 import pointsToRanges, {
   bucketsFromBreakpoints
 } from '../utils/points-to-ranges';
-import { Github } from '../types/github';
 
 export function extractCommits(commitActivity: GithubActivity[]): Release[] {
   const points = commitActivity.map((entry) => ({
@@ -118,7 +118,7 @@ export default async function github(context: Context): Promise<Github> {
       })
       .reverse(),
 
-    commits: extractCommits(props.commitActivity),
+    commits: extractCommits(Object.values(props.commitActivity)),
 
     statuses: uniqBy(props.statuses, (status) => status.context).map((status) =>
       pick(status, 'context', 'state')

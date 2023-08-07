@@ -1,8 +1,6 @@
-import path from 'path';
-
 import { Collected } from '../types/collected';
 import { Context } from '../types/context';
-import github, { fetchGithubStats } from './github';
+import github from './github';
 import metadata from './metadata';
 import npm from './npm';
 import source from './source';

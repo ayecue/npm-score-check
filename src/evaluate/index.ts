@@ -1,7 +1,12 @@
 import { Collected } from '../types/collected';
-import { Context } from '../types/context';
+import maintenance from './maintenance';
+import popularity from './popularity';
+import quality from './quality';
 
-export default async function evaluate(
-  context: Context,
-  collected: Collected
-): Promise<any> {}
+export default async function evaluate(collected: Collected) {
+  return {
+    maintenance: maintenance(collected),
+    popularity: popularity(collected),
+    quality: quality(collected)
+  };
+}

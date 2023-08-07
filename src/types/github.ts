@@ -7,9 +7,11 @@ export interface Github {
   starsCount: number;
   forksCount: number;
   subscribersCount: number;
-  issues: IssueStats | {
-    isDisabled: boolean;
-  };
+  issues:
+    | IssueStats
+    | {
+        isDisabled: boolean;
+      };
   contributors: {
     username: string;
     commitsCount: number;
