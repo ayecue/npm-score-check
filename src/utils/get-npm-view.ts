@@ -5,11 +5,16 @@ import NpmView from '../container/npm-view';
 export default function getNpmView(packageName: string): Promise<NpmView> {
   return new Promise((resolve, reject) => {
     let output = '';
+    let errout = '';
 
     const p = spawn('npm', ['view', '--json', packageName])
       .on('error', reject)
-      .on('close', () => resolve(new NpmView(JSON.parse(output))));
+      .on('close', () => {
+        if (errout !== '') return reject(new Error(errout))
+        resolve(JSON.parse(output))
+      });
 
+    p.stderr.on('data', (data) => (errout += data.toString()));
     p.stdout.on('data', (data) => (output += data.toString()));
   });
 }
