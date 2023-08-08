@@ -8,17 +8,31 @@ import { Context } from '../types/context';
 import getNpmView from '../utils/get-npm-view';
 import readPackageJSON from '../utils/read-package-json';
 import generateName from './generate-name';
+import hostedGitInfo from './hosted-git-info';
 
 export async function createContextWithRemoteNpm(
   name: string
 ): Promise<Context> {
   const npmView = await getNpmView(name);
+  const gitInfo = hostedGitInfo(npmView.repository.url);
+  const repository = `${gitInfo.user}/${gitInfo.project}`;
   const tmpDir = path.resolve(tmpdir(), generateName());
+  const dispose = () => fs.rmSync(tmpDir, { recursive: true, force: true });
 
   await mkdirp(tmpDir);
-  await gitly(npmView.repository.url, tmpDir, {});
+  const [_tmp, outputDir] = await gitly(repository, tmpDir, {});
 
-  const pkg = await readPackageJSON(path.resolve(tmpDir, 'package.json'));
+  if (outputDir === '') {
+    dispose();
+    throw new Error(`Unable to download git repo for ${name}.`);
+  }
+
+  const pkg = await readPackageJSON(path.resolve(outputDir, 'package.json'));
+
+  if (!pkg) {
+    dispose();
+    throw new Error(`Cannot read package in ${name}.`);
+  }
 
   return {
     package: {
@@ -26,9 +40,7 @@ export async function createContextWithRemoteNpm(
       dir: tmpDir
     },
     npm: await getNpmView(name),
-    dispose: () => {
-      fs.rmSync(tmpDir, { recursive: true, force: true });
-    }
+    dispose
   };
 }
 
@@ -36,6 +48,10 @@ export async function createContextWithLocalPackage(
   packagePath: string
 ): Promise<Context> {
   const pkg = await readPackageJSON(packagePath);
+
+  if (!pkg) {
+    throw new Error(`Cannot read package in ${packagePath}.`);
+  }
 
   return {
     package: {

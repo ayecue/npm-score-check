@@ -90,7 +90,10 @@ export async function extractLinks(
       const normalizedLink = link.split('#')[0];
 
       if (!isLinkWorkingCache[normalizedLink]) {
-        const isWorking = await isLinkWorking(normalizedLink);
+        const isWorking = await isLinkWorking(normalizedLink, {
+          timeout: 5000,
+          retries: 0
+        });
         return isWorking ? { key, link } : { key, link: null };
       }
 

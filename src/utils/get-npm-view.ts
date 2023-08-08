@@ -7,7 +7,9 @@ export default function getNpmView(packageName: string): Promise<NpmView> {
     let output = '';
     let errout = '';
 
-    const p = spawn('npm', ['view', '--json', packageName])
+    const p = spawn('npm', ['view', '--json', packageName], {
+      timeout: 150000
+    })
       .on('error', reject)
       .on('close', () => {
         if (errout !== '') return reject(new Error(errout));

@@ -10,7 +10,8 @@ export default function getOutdatedReport(
     let errout = '';
 
     const p = spawn('npm', ['outdated', '--json'], {
-      cwd: path
+      cwd: path,
+      timeout: 150000
     })
       .on('error', reject)
       .on('close', () => {

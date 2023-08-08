@@ -12,7 +12,8 @@ export default function getAuditReport(
       let errout = '';
 
       const p = spawn('npm', ['audit', '--json'], {
-        cwd: path
+        cwd: path,
+        timeout: 150000
       })
         .on('error', reject)
         .on('close', () => {
