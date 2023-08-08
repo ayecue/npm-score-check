@@ -7,4 +7,5 @@ export interface Context {
     dir: string;
   };
   npm: NpmView;
+  dispose: () => void;
 }
