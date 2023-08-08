@@ -10,8 +10,8 @@ export default function getNpmView(packageName: string): Promise<NpmView> {
     const p = spawn('npm', ['view', '--json', packageName])
       .on('error', reject)
       .on('close', () => {
-        if (errout !== '') return reject(new Error(errout))
-        resolve(JSON.parse(output))
+        if (errout !== '') return reject(new Error(errout));
+        resolve(new NpmView(JSON.parse(output)));
       });
 
     p.stderr.on('data', (data) => (errout += data.toString()));

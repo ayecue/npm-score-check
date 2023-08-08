@@ -33,12 +33,18 @@ export function extractCommits(commitActivity: GithubActivity[]): Release[] {
   }));
 }
 
-async function githubRequest<T>(resource: string, token: string | null): Promise<T> {
+async function githubRequest<T>(
+  resource: string,
+  token: string | null
+): Promise<T> {
   const url = `https://api.github.com${resource}`;
   const res = await nodeFetch(url, {
-    headers: Object.assign({
-      accept: 'application/vnd.github.v3+json'
-    }, token ? { authorization: `token ${token}` } : null),
+    headers: Object.assign(
+      {
+        accept: 'application/vnd.github.v3+json'
+      },
+      token ? { authorization: `token ${token}` } : null
+    )
   });
   return res.json();
 }
@@ -79,13 +85,16 @@ export async function fetchGithubStats(context: Context) {
   ] = await Promise.all([
     githubRequest<GithubInfo>(`/repos/${repository}`, process.env.GITHUB_TOKEN),
     githubRequest<GithubContributor[]>(
-      `/repos/${repository}/stats/contributors`, process.env.GITHUB_TOKEN
+      `/repos/${repository}/stats/contributors`,
+      process.env.GITHUB_TOKEN
     ),
     githubRequest<GithubActivity[]>(
-      `/repos/${repository}/stats/commit_activity`, process.env.GITHUB_TOKEN
+      `/repos/${repository}/stats/commit_activity`,
+      process.env.GITHUB_TOKEN
     ),
     githubRequest<GithubStatus[]>(
-      `/repos/${repository}/commits/master/statuses`, process.env.GITHUB_TOKEN
+      `/repos/${repository}/commits/master/statuses`,
+      process.env.GITHUB_TOKEN
     ),
     fetchIssuesStats(repository, process.env.GITHUB_TOKEN)
   ]);

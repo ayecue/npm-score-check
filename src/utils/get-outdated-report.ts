@@ -14,8 +14,8 @@ export default function getOutdatedReport(
     })
       .on('error', reject)
       .on('close', () => {
-        if (errout !== '') return reject(new Error(errout))
-        resolve(JSON.parse(output))
+        if (errout !== '') return reject(new Error(errout));
+        resolve(JSON.parse(output));
       });
 
     p.stderr.on('data', (data) => (errout += data.toString()));

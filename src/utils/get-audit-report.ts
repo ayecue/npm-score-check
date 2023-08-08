@@ -14,8 +14,8 @@ export default function getAuditReport(
     })
       .on('error', reject)
       .on('close', () => {
-        if (errout !== '') return reject(new Error(errout))
-        resolve(JSON.parse(output).vulnerabilities)
+        if (errout !== '') return reject(new Error(errout));
+        resolve(JSON.parse(output).vulnerabilities);
       });
 
     p.stderr.on('data', (data) => (errout += data.toString()));
