@@ -9,6 +9,7 @@ import { Evaluation } from './types/evaluation';
 import createContext from './utils/create-context';
 import Numerical from './utils/paper-numerical';
 
+//TODO: rework calculate score since there are no aggregates
 export function calculateScore(value: number, avgY: number) {
   const normValue = clamp(value, 0, 1);
   const roots = [];
