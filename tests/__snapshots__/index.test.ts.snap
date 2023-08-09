@@ -1,0 +1,182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`npm-score-check default 1`] = `
+{
+  "deprecated": null,
+  "insecure": undefined,
+  "unstable": null,
+}
+`;
+
+exports[`npm-score-check default 2`] = `
+{
+  "maintenance": {
+    "commitsFrequency": 0.7387671232876711,
+    "issuesDistribution": 0.25728123821662185,
+    "openIssues": 1,
+    "releasesFrequency": 0.12328767123287673,
+  },
+  "popularity": {
+    "communityInterest": 76544,
+    "dependentsCount": 0,
+    "downloadsAcceleration": 94153.66394596652,
+    "downloadsCount": 118793737.33333333,
+  },
+  "quality": {
+    "branding": 0,
+    "carefulness": 0.9999999999999999,
+    "health": 0.5,
+    "tests": 1,
+  },
+}
+`;
+
+exports[`npm-score-check default 3`] = `
+{
+  "author": {
+    "email": "Holowaychuk",
+    "name": "TJ",
+    "url": "<tj@vision-media.ca>",
+  },
+  "date": "2022-10-08T20:14:32.495Z",
+  "description": "Fast, unopinionated, minimalist web framework",
+  "keywords": [
+    "express",
+    "http",
+    "rest",
+    "restful",
+    "router",
+    "app",
+    "api",
+  ],
+  "links": {
+    "bugs": "https://github.com/expressjs/express/issues",
+    "homepage": "http://expressjs.com/",
+    "npm": "https://www.npmjs.com/package/express",
+    "repository": "https://github.com/expressjs/express",
+  },
+  "maintainers": [
+    {
+      "email": "<mikeal.rogers@gmail.com>",
+      "username": "mikeal",
+    },
+    {
+      "email": "<doug@somethingdoug.com>",
+      "username": "dougwilson",
+    },
+    {
+      "email": "<jasnell@gmail.com>",
+      "username": "jasnell",
+    },
+  ],
+  "name": "express",
+  "publisher": {
+    "email": "<doug@somethingdoug.com>",
+    "username": "dougwilson",
+  },
+  "scope": "unscoped",
+  "version": "4.18.2",
+}
+`;
+
+exports[`npm-score-check default evaluateNpmRemotePackage 1`] = `
+{
+  "maintenance": {
+    "commitsFrequency": 0.7387671232876711,
+    "issuesDistribution": 0.25728123821662185,
+    "openIssues": 1,
+    "releasesFrequency": 0.12328767123287673,
+  },
+  "popularity": {
+    "communityInterest": 76544,
+    "dependentsCount": 0,
+    "downloadsAcceleration": 94153.66394596652,
+    "downloadsCount": 118793737.33333333,
+  },
+  "quality": {
+    "branding": 0,
+    "carefulness": 0.9999999999999999,
+    "health": 0.5,
+    "tests": 1,
+  },
+}
+`;
+
+exports[`npm-score-check default score 1`] = `
+{
+  "deprecated": null,
+  "insecure": undefined,
+  "unstable": null,
+}
+`;
+
+exports[`npm-score-check default score 2`] = `
+{
+  "maintenance": {
+    "commitsFrequency": 0.7387671232876711,
+    "issuesDistribution": 0.25728123821662185,
+    "openIssues": 1,
+    "releasesFrequency": 0.12328767123287673,
+  },
+  "popularity": {
+    "communityInterest": 76544,
+    "dependentsCount": 0,
+    "downloadsAcceleration": 94153.66394596652,
+    "downloadsCount": 118793737.33333333,
+  },
+  "quality": {
+    "branding": 0,
+    "carefulness": 0.9999999999999999,
+    "health": 0.5,
+    "tests": 1,
+  },
+}
+`;
+
+exports[`npm-score-check default score 3`] = `
+{
+  "author": {
+    "email": "Holowaychuk",
+    "name": "TJ",
+    "url": "<tj@vision-media.ca>",
+  },
+  "date": "2022-10-08T20:14:32.495Z",
+  "description": "Fast, unopinionated, minimalist web framework",
+  "keywords": [
+    "express",
+    "framework",
+    "sinatra",
+    "web",
+    "http",
+    "app",
+    "api",
+  ],
+  "links": {
+    "bugs": "https://github.com/expressjs/express/issues",
+    "homepage": "http://expressjs.com/",
+    "npm": "https://www.npmjs.com/package/express",
+    "repository": "https://github.com/expressjs/express",
+  },
+  "maintainers": [
+    {
+      "email": "<mikeal.rogers@gmail.com>",
+      "username": "mikeal",
+    },
+    {
+      "email": "<doug@somethingdoug.com>",
+      "username": "dougwilson",
+    },
+    {
+      "email": "<jasnell@gmail.com>",
+      "username": "jasnell",
+    },
+  ],
+  "name": "express",
+  "publisher": {
+    "email": "<doug@somethingdoug.com>",
+    "username": "dougwilson",
+  },
+  "scope": "unscoped",
+  "version": "4.18.2",
+}
+`;

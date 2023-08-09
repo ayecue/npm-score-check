@@ -9,3 +9,4 @@ index.js
 payloads
 .DS_Store
 .env.local
+tests/mocks/**/*

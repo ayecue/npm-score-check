@@ -1,6 +1,6 @@
 {
   "name": "npm-score-check",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index",
   "typings": "dist/index",
@@ -8,7 +8,10 @@
     "prepublishOnly": "npm run build",
     "start": "node ./dist/index.js",
     "dev": "ts-node ./src/index.ts",
-    "build": "tsc -p ./"
+    "build": "tsc -p ./",
+    "test": "npm run install:mock && jest ./tests/*.test.ts",
+    "test:coverage": "npm run install:mock && jest ./tests/*.test.ts --coverage",
+    "install:mock": "rm -rf tests/mocks/express && git clone https://github.com/expressjs/express.git && cp -r express tests/mocks && rm -rf express"
   },
   "bin": {
     "npm-score-check": "bin/check.js"
@@ -23,11 +26,12 @@
     "url": "https://github.com/ayecue/npm-score-check/issues"
   },
   "devDependencies": {
-    "@types/express": "^4.17.13",
+    "@types/jest": "^29.5.2",
     "@types/node": "^20.4.7",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
     "eslint": "^8.17.0",
+    "jest": "^29.5.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",

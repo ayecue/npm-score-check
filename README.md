@@ -2,6 +2,8 @@
 
 Get the npm score of your package. Cut down version of [npms-analyzer](https://github.com/npms-io/npms-analyzer).
 
+The score will not be 1:1 to npm since the amount of evaluation aggregations to compare against won't be the same. But still might be useful to get an idea related to the score value.
+
 # Install
 
 ```
