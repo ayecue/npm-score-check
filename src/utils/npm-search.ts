@@ -5,6 +5,7 @@ export interface NpmSearchOptions {
   quality?: number;
   popularity?: number;
   maintenance?: number;
+  from?: number;
 }
 
 export default async function npmSearch(
@@ -13,7 +14,8 @@ export default async function npmSearch(
     limit = 20,
     quality = 0.65,
     popularity = 0.98,
-    maintenance = 0.5
+    maintenance = 0.5,
+    from = 0
   }: NpmSearchOptions = {}
 ): Promise<string[]> {
   const result = await json('/-/v1/search', {
@@ -22,9 +24,11 @@ export default async function npmSearch(
     quality,
     popularity,
     maintenance,
+    from,
     query: {
       text,
       size: limit,
+      from,
       quality,
       popularity,
       maintenance

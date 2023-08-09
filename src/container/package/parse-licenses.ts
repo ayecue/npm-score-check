@@ -16,7 +16,11 @@ export const parseLicenses = (
   license: PackageJSON['license'],
   licenses: PackageJSON['licenses'] = []
 ): License[] => {
-  return [parseLicense(license), ...licenses.map(parseLicense)].filter(
-    (item) => item !== null
-  );
+  const result: License[] = [parseLicense(license)];
+  if (typeof licenses === 'object' && Array.isArray(licenses)) {
+    result.push(...licenses.map(parseLicense));
+  } else {
+    result.push(parseLicense(licenses));
+  }
+  return result.filter((item) => item !== null);
 };

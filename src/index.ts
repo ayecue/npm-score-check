@@ -7,7 +7,7 @@ import {
   createContextWithLocalPackage,
   createContextWithRemoteNpm
 } from './utils/create-context';
-import npmSearch from './utils/npm-search';
+import npmSearch, { NpmSearchOptions } from './utils/npm-search';
 
 export async function evaluateNpmRemotePackage(
   name: string
@@ -23,9 +23,10 @@ export async function evaluateNpmRemotePackage(
 }
 
 export async function evaluateMultipleNpmRemotePackagesOfQuery(
-  search: string
+  search: string,
+  options?: NpmSearchOptions
 ): Promise<Evaluation[]> {
-  const names = await npmSearch(search);
+  const names = await npmSearch(search, options);
   const result = await Promise.all(
     names.map(async (name) => {
       try {
@@ -48,10 +49,31 @@ export default async function score(target: string) {
   context.dispose();
 
   const evaluation = await evaluate(collected);
-  const externalEvaluations = await evaluateMultipleNpmRemotePackagesOfQuery(
-    'test'
-  );
-  const aggregation = calculateAggregation(externalEvaluations);
+  const [lowEvals, medEvals, highEvals] = await Promise.all([
+    evaluateMultipleNpmRemotePackagesOfQuery('express', {
+      limit: 5,
+      quality: 0.1,
+      maintenance: 0,
+      popularity: 0
+    }),
+    evaluateMultipleNpmRemotePackagesOfQuery('express', {
+      limit: 5,
+      quality: 0.5,
+      maintenance: 0,
+      popularity: 0
+    }),
+    evaluateMultipleNpmRemotePackagesOfQuery('express', {
+      limit: 5,
+      quality: 1,
+      maintenance: 0,
+      popularity: 0
+    })
+  ]);
+  const aggregation = calculateAggregation([
+    ...lowEvals,
+    ...medEvals,
+    ...highEvals
+  ]);
 
   return buildScore(collected, evaluation, aggregation);
 }
