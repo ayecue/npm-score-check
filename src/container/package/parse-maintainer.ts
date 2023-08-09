@@ -8,7 +8,11 @@ export type Maintainer = {
 const parseMaintainer = (
   maintainer: PackageJSON['maintainers'][number]
 ): Maintainer | null => {
-  if (maintainer == null) return null;
+  if (maintainer == null)
+    return {
+      name: '',
+      email: ''
+    };
   if (typeof maintainer === 'object')
     return { email: maintainer.email ?? '', name: maintainer.name ?? '' };
   const [name = '', email = ''] = maintainer.split(' ');

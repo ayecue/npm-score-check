@@ -33,7 +33,7 @@ export async function evaluateMultipleNpmRemotePackagesOfQuery(
         const evaluation = await evaluateNpmRemotePackage(name);
         return evaluation;
       } catch (err) {
-        console.error(`Unable to evaluate ${name} due to: ${err.message}`);
+        console.error(`Unable to evaluate ${name} due to:`, err);
         return Promise.resolve(null);
       }
     })
@@ -42,38 +42,65 @@ export async function evaluateMultipleNpmRemotePackagesOfQuery(
   return result.filter((item) => item !== null);
 }
 
-export default async function score(target: string) {
+export interface ScoreOptions {
+  keywords?: string[];
+  sampleSize?: number;
+  maxKeywords?: number;
+}
+
+export default async function score(
+  target: string,
+  { keywords = null, sampleSize = 5, maxKeywords = 3 }: ScoreOptions = {}
+) {
   const context = await createContextWithLocalPackage(target);
   const collected = await collect(context);
 
   context.dispose();
 
   const evaluation = await evaluate(collected);
-  const [lowEvals, medEvals, highEvals] = await Promise.all([
-    evaluateMultipleNpmRemotePackagesOfQuery('express', {
-      limit: 5,
-      quality: 0.1,
-      maintenance: 0,
-      popularity: 0
-    }),
-    evaluateMultipleNpmRemotePackagesOfQuery('express', {
-      limit: 5,
-      quality: 0.5,
-      maintenance: 0,
-      popularity: 0
-    }),
-    evaluateMultipleNpmRemotePackagesOfQuery('express', {
-      limit: 5,
-      quality: 1,
-      maintenance: 0,
-      popularity: 0
-    })
-  ]);
-  const aggregation = calculateAggregation([
-    ...lowEvals,
-    ...medEvals,
-    ...highEvals
-  ]);
+  const potentialKeywords = keywords ?? collected.metadata.keywords ?? ['cli'];
+  const finalKeywords: string[] = [];
+
+  for (
+    let index = 0;
+    index < maxKeywords && potentialKeywords.length > 0;
+    index++
+  ) {
+    const selectedIndex = Math.floor(
+      Math.random() * (potentialKeywords.length - 1)
+    );
+    const item = potentialKeywords[selectedIndex];
+    potentialKeywords.splice(selectedIndex, 1);
+    finalKeywords.push(item);
+  }
+
+  const evaluations = [];
+
+  for (const item of finalKeywords) {
+    const searchText = `keywords:${item}`;
+    const [m, p, q] = await Promise.all([
+      evaluateMultipleNpmRemotePackagesOfQuery(searchText, {
+        limit: sampleSize,
+        quality: 0,
+        maintenance: 1,
+        popularity: 0
+      }),
+      evaluateMultipleNpmRemotePackagesOfQuery(searchText, {
+        limit: sampleSize,
+        quality: 0,
+        maintenance: 0,
+        popularity: 1
+      }),
+      evaluateMultipleNpmRemotePackagesOfQuery(searchText, {
+        limit: sampleSize,
+        quality: 1,
+        maintenance: 0,
+        popularity: 0
+      })
+    ]);
+    evaluations.push(...m, ...p, ...q);
+  }
+  const aggregation = calculateAggregation(evaluations);
 
   return buildScore(collected, evaluation, aggregation);
 }

@@ -68,10 +68,7 @@ export function extractLicense(context: Context): string {
 export async function extractLinks(
   context: Context
 ): Promise<Record<string, string>> {
-  const repositoryUrl =
-    typeof context.package.json.repository === 'object'
-      ? context.package.json.repository.url
-      : context.package.json.repository;
+  const repositoryUrl = context.package.json.repository.url;
   const gitInfo = hostedGitInfo(repositoryUrl);
 
   const links: Record<string, string> = pickBy({

@@ -8,7 +8,7 @@ export default function createPackageLock(target: string): Promise<void> {
   }
 
   return new Promise((resolve, reject) => {
-    const p = spawn('npm', ['i', '--package-lock-only'], {
+    spawn('npm', ['i', '--package-lock-only'], {
       cwd: target,
       timeout: 150000
     })

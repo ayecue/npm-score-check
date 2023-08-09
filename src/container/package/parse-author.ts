@@ -6,8 +6,13 @@ export type Author = {
   url: string;
 };
 
-export const parseAuthor = (author: PackageJSON['author']): Author | null => {
-  if (author == null) return null;
+export const parseAuthor = (author: PackageJSON['author']): Author => {
+  if (author == null)
+    return {
+      name: '',
+      email: '',
+      url: ''
+    };
   if (typeof author === 'object')
     return {
       name: author.name ?? '',

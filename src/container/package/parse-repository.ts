@@ -8,8 +8,8 @@ export type Repository = {
 
 export const parseRepository = (
   repository: PackageJSON['repository']
-): Repository | null => {
-  if (repository == null) return null;
+): Repository => {
+  if (repository == null) return { type: '', url: '', directory: '' };
   if (typeof repository === 'object')
     return {
       type: repository.type ?? '',

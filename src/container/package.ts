@@ -19,12 +19,12 @@ export default class Package {
   readonly homepage: string | null;
   readonly typings: string | null;
   readonly scripts: Record<string, string>;
-  readonly repository: Repository | null;
-  readonly author: Author | null;
+  readonly repository: Repository;
+  readonly author: Author;
   readonly contributors: Author[];
   readonly funding: Funding[];
   readonly licenses: License[];
-  readonly bugs: Bugs | null;
+  readonly bugs: Bugs;
   readonly files: string[];
   readonly config: Record<string, string>;
   readonly bin: Record<string, string>;

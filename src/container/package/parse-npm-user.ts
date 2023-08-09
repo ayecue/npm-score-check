@@ -8,7 +8,11 @@ export type NpmUser = {
 export const parseNpmUser = (
   author: NpmViewJSON['_npmUser']
 ): NpmUser | null => {
-  if (author == null) return null;
+  if (author == null)
+    return {
+      name: '',
+      email: ''
+    };
   if (typeof author === 'object')
     return { name: author.name ?? '', email: author.email ?? '' };
   const [name = '', email = ''] = author.split(' ');

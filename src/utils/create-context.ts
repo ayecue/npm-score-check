@@ -7,6 +7,7 @@ import path from 'path';
 import { Context } from '../types/context';
 import getNpmView from '../utils/get-npm-view';
 import readPackageJSON from '../utils/read-package-json';
+import createPackageLock from './create-package-lock';
 import generateName from './generate-name';
 import hostedGitInfo from './hosted-git-info';
 
@@ -14,7 +15,7 @@ export async function createContextWithRemoteNpm(
   name: string
 ): Promise<Context> {
   const npmView = await getNpmView(name);
-  const gitInfo = hostedGitInfo(npmView.repository.url);
+  const gitInfo = hostedGitInfo(npmView.repository?.url);
   const repository = `${gitInfo.user}/${gitInfo.project}`;
   const tmpDir = path.resolve(tmpdir(), generateName());
   const dispose = () => fs.rmSync(tmpDir, { recursive: true, force: true });
@@ -33,6 +34,8 @@ export async function createContextWithRemoteNpm(
     dispose();
     throw new Error(`Cannot read package in ${name}.`);
   }
+
+  await createPackageLock(outputDir);
 
   return {
     package: {
@@ -53,10 +56,14 @@ export async function createContextWithLocalPackage(
     throw new Error(`Cannot read package in ${packagePath}.`);
   }
 
+  const dir = path.dirname(packagePath);
+
+  await createPackageLock(dir);
+
   return {
     package: {
       json: pkg,
-      dir: path.dirname(packagePath)
+      dir
     },
     npm: await getNpmView(pkg.name),
     dispose: () => {}
