@@ -12,7 +12,6 @@ export function calculateScore(
   aggregation: Aggregate,
   avgY: number
 ) {
-  console.log(value, aggregation);
   const normValue = clamp((value - aggregation.min) / aggregation.max, 0, 1);
   const normMean = clamp(
     (aggregation.truncatedMean - aggregation.min) / aggregation.max,

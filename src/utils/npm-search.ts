@@ -10,7 +10,7 @@ export interface NpmSearchOptions {
 export default async function npmSearch(
   text: string,
   {
-    limit = 5,
+    limit = 20,
     quality = 0.65,
     popularity = 0.98,
     maintenance = 0.5

@@ -1,4 +1,4 @@
-import aggregate from './aggregate';
+import { calculateAggregation } from './aggregate';
 import collect from './collect';
 import evaluate from './evaluate';
 import buildScore from './score';
@@ -29,9 +29,7 @@ export async function evaluateMultipleNpmRemotePackagesOfQuery(
   const result = await Promise.all(
     names.map(async (name) => {
       try {
-        console.info(`Start evaluation for ${name}!`);
         const evaluation = await evaluateNpmRemotePackage(name);
-        console.info(`Evaluation done for ${name}!`, evaluation);
         return evaluation;
       } catch (err) {
         console.error(`Unable to evaluate ${name} due to: ${err.message}`);
@@ -50,7 +48,10 @@ export default async function score(target: string) {
   context.dispose();
 
   const evaluation = await evaluate(collected);
-  const aggregation = aggregate();
+  const externalEvaluations = await evaluateMultipleNpmRemotePackagesOfQuery(
+    'test'
+  );
+  const aggregation = calculateAggregation(externalEvaluations);
 
   return buildScore(collected, evaluation, aggregation);
 }

@@ -22,14 +22,12 @@ export function calculateAggregation(evaluations: Evaluation[]): Aggregation {
       min: evaluations[0],
       max: evaluations[evaluations.length - 1],
       mean: mean(evaluations),
-      truncatedMean: mean(evaluations.slice(trimmedLength, -trimmedLength)),
+      truncatedMean: mean(
+        evaluations.slice(trimmedLength, evaluations.length - trimmedLength)
+      ),
       median: evaluations[Math.round(evaluations.length / 2)]
     };
   });
 
   return unflattenObject(aggregation);
-}
-
-export default function aggregate() {
-  return calculateAggregation([]);
 }
